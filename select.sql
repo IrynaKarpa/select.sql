@@ -70,6 +70,62 @@ select name, position
 select * from debts tbl1
     left outer join debts_repayment tbl2
     on tbl1.id_debts = tbl2.id_debts;
-    -- 14) Вибрати всі записи з таблиці composition_of_сroissant де id_ingr дорівнює 4 або 5.
+-- 14) Вибрати всі записи з таблиці composition_of_сroissant де id_ingr дорівнює 4 або 5.
 select * from composition_of_croissant
   where id_ingr = 4 or id_ingr = 5;
+-- 15) Шукаємо різницю між кредиторською та дебіторською заборгованостю
+  select 
+  t1.id_debts, t1.id_contr, t1.summ,
+  t2.id_debts, t2.summ, 
+  t1.summ - t2.summ difference
+  from debts t1
+  left join debts_repayment t2
+    on t1.id_debts = t2.id_debts;
+    -- 18) Вибрати всі доставки з другого складу
+select t1.date, t1.id_war, t2.id_ingr, t2.qty, t2.price
+  from movings t1, moving_details t2
+    where t1.id_mov = t2.id_mov AND t1.id_war = 2; 
+-- 16) Згрупувати всі адреси з таблиці warehouses, що містять цифру 3.
+select address
+from warehouses
+group by address
+having address like '%3%';
+-- 17) Вибрати унікальні записи позицій та зарплат з таблиці staff де зарплата більша 5000 та сортувати за спаданням.
+select distinct position, salary 
+from staff
+where salary > '5000'
+order by salary desc;
+-- 18) Вибрати всі доставки з другого складу
+select t1.date, t1.id_war, t2.id_ingr, t2.qty, t2.price
+  from movings t1, moving_details t2
+    where t1.id_mov = t2.id_mov AND t1.id_war = 2;
+-- 19) Вибрати всі продажі з сумою більше 100, але менше 300 грошових одиниць.
+select id_salouts, id_shops, id_cust, sum 
+  from salouts
+    where sum > 100 and sum < 300;
+-- 20) Вибрати загальну кількість замовлень круасана "Класичний" у всіх магазинах.
+select count(t1.id_order) all_orders, t2.id_prod
+  from orders t1
+   right outer join order_details t2
+    on t2.id_order = t1.id_order 
+	where t2.id_prod = 1
+	group by t2.id_prod
+    
+-- 21) Вибрати магазини і загальну кількість замовлень в них.
+select count(t2.id_shops) all_orders, t2.id_shops
+  from orders t1 
+  right join salouts t2 
+  on t1.id_order = t2.id_order
+    group by t2.id_shops;
+
+-- 22) Вибрати покупців і порахувати загальну кількість замовлень, що вони зробили, посортувати за спаданням.
+select count(t2.id_cust) total, t1.name
+  from customers t1
+  right outer join salouts t2 
+  on t1.id_cust = t2.id_cust
+    group by t1.name
+    order by count(t1.id_cust) desc;
+-- 23) Вибираємо покупців,чи ім'я закінчується на "а".
+select name,phone, birth
+from customers
+where name like '%а'

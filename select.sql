@@ -38,3 +38,38 @@ order by sum asc;
 -- 7) Вибираємо всі атрибути з таблиці debts, де дата більша за 1 січня 2020 року.
 select *from debts
 where dates > '20200101'
+-- 8) Визначаємо номер "Переміщення" та номер складу, де номер інгредієнту - 2.
+select id_mov,id_war
+from movings
+where id_mov =(select id_mov
+from moving_details
+where id_ingr = 2)
+
+
+-- 9) Знаходження загальної заборгованості контрагентів.
+select id_contr, sum(summ) sum
+from debts
+group by id_contr;
+  
+-- 10) Сортуваня полів таблиці moving_details по спаданню ціни.
+ select id_movdet, id_ingr, price
+  from moving_details
+  order by price DESC;
+  
+-- 11)  Дістаємо "Продажі", де сума продажу більша 2500 та менша 4500.
+select id_det, id_salins,price
+  from salin_details
+  where price between 2500 and 4500; 
+  
+-- 12) Вибираємо з таблички staff імена, які починаються на букву "А".
+select name, position
+  FROM staff
+  WHERE name LIKE 'Т%'; 
+  
+-- 13) Об'єднуємо таблиці "Заборгованість" та "Погашення заборгованості".
+select * from debts tbl1
+    left outer join debts_repayment tbl2
+    on tbl1.id_debts = tbl2.id_debts;
+    -- 14) Вибрати всі записи з таблиці composition_of_сroissant де id_ingr дорівнює 4 або 5.
+select * from composition_of_croissant
+  where id_ingr = 4 or id_ingr = 5;

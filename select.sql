@@ -148,7 +148,7 @@ select t1.name, count(t2.id_prod) as quality
 select name, phone
 from staff
 where phone like '+380[6,9][7,8,6]%'
---28)Показати імена покупців, дата народження яких з 1991 по 1993 роки.
+--28)Показати імена покупців, дата народження яких з 1999 по 2001 роки.
 select name, birth
 from customers
 where birth between '1999-01-01' and '2001-01-01'

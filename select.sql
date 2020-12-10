@@ -129,3 +129,26 @@ select count(t2.id_cust) total, t1.name
 select name,phone, birth
 from customers
 where name like '%а'
+-- 24) Визначаємо ціну інгредієнтів більше 100.
+select name,price
+from ingredients
+where price > 100
+-- 25)Визначаємо ціну продукції менше 40
+select name, price
+from products
+where price < 40
+order by price desc
+--26)Визначаємо к-ть продуктів в кожному інгредієнті.
+select t1.name, count(t2.id_prod) as quality
+  from products t1
+   inner join composition_of_croissant t2
+    on t2.id_prod = t1.id_prod 
+	group by t1.name
+--27)Визначити номера телефонів персоналу які мають оператор Kyivstar.
+select name, phone
+from staff
+where phone like '+380[6,9][7,8,6]%'
+--28)Показати імена покупців, дата народження яких з 1991 по 1993 роки.
+select name, birth
+from customers
+where birth between '1999-01-01' and '2001-01-01'
